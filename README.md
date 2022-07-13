@@ -10,7 +10,7 @@ CLI tool to download manga from Comic FUZ web version.
 
 ### Run with Poetry
 
-```
+```sh
 export EMAIL="..."
 export PASSWORD="..."
 SERIES_URL="https://..." poetry run fuzdl
