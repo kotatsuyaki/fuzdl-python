@@ -1,0 +1,25 @@
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v17
+      -
+        name: Build Docker image
+        run: nix build .#docker
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Push docker image to DockerHub
+        run: |
+          docker load < result
+          docker push kotatsuyaki/fuzdl:${GITHUB_REF/refs\/tags\/v/}

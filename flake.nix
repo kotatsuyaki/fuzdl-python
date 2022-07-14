@@ -25,6 +25,16 @@
             (pkgs.poetry2nix.mkPoetryEnv { projectDir = ./.; preferWheels = true; })
           ];
         };
+        packages.docker = pkgs.dockerTools.buildLayeredImage {
+          name = "kotatsuyaki/${poetry-app.pname}";
+          tag = builtins.replaceStrings ["v"] [""] poetry-app.version;
+          contents = [ poetry-app ];
+
+          config = {
+            Cmd = [ "/bin/fuzdl" ];
+            WorkingDir = "/data";
+          };
+        };
 
         defaultPackage = poetry-app;
       }; in with utils.lib; eachSystem defaultSystems out;
