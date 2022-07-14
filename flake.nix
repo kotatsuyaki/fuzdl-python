@@ -8,11 +8,11 @@
     let out = system:
       let
         pkgs = nixpkgs.legacyPackages."${system}";
-        poetry-app = with pkgs.poetry2nix; mkPoetryApplication {
+        poetry-app = (with pkgs.poetry2nix; mkPoetryApplication {
           projectDir = ./.;
           preferWheels = true;
-          buildInputs = with pkgs; [ geckodriver ];
-        };
+          propagatedBuildInputs = with pkgs; [ geckodriver firefox ];
+        });
       in
       {
         devShell = pkgs.mkShell {
