@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.firefox.options import Options
 
 
 @dataclass
@@ -32,8 +33,10 @@ BLOB_SCRIPT = """
 
 class App:
     def __init__(self) -> None:
-        self.driver = webdriver.Firefox()
-        self.driver.minimize_window()
+        options = Options()
+        options.headless = True
+        self.driver = webdriver.Firefox(options=options)
+        self.driver.set_window_size(960, 1080)
         # Implicitly wait 10 seconds for finding *any* element
         # See https://www.selenium.dev/documentation/webdriver/waits/
         self.driver.implicitly_wait(10)
