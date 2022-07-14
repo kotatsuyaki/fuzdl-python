@@ -180,6 +180,12 @@ def main():
     password = environ['PASSWORD']
     series_url = environ['SERIES_URL']
 
+    # Create /tmp directory (for Docker environment)
+    try:
+        Path('/tmp').mkdir(parents=True,exist_ok=True)
+    except Exception as e:
+        pass
+
     app = App()
     try:
         app.login(email, password)
